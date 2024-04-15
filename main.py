@@ -117,36 +117,28 @@ def load_main_window(filepath):
     canvas.get_tk_widget().grid(row=0, column=0, columnspan=3, sticky=NSEW)
 
     create_slider(main_window, on_Zfar_changed, 1, 0, start=-100, to=100, label='Zfar')
-    Zfar_entry = Entry(main_window)
-    Zfar_entry.grid(row=1, column=1, sticky=W)
+    Zfar_entry = create_entry(main_window, 1, 1)
 
     create_slider(main_window, on_Znear_changed, 2, 0, start=-100, to=100, label='Znear')
-    Znear_entry = Entry(main_window)
-    Znear_entry.grid(row=2, column=1, sticky=W)
+    Znear_entry = create_entry(main_window, 2, 1)
 
     create_slider(main_window, on_dx_changed, 3, 0, start=-10, to=10, label='dx')
-    dx_entry = Entry(main_window)
-    dx_entry.grid(row=3, column=1, sticky=W)
+    dx_entry = create_entry(main_window, 3, 1)
 
     create_slider(main_window, on_dy_changed, 4, 0, start=-10, to=10, label='dy')
-    dy_entry = Entry(main_window)
-    dy_entry.grid(row=4, column=1, sticky=W)
+    dy_entry = create_entry(main_window, 4, 1)
 
     create_slider(main_window, on_k1_changed, 1, 3, start=-10, to=10, label='k1')
-    k1_entry = Entry(main_window)
-    k1_entry.grid(row=1, column=4, sticky=W)
+    k1_entry = create_entry(main_window, 1, 4)
 
     create_slider(main_window, on_rotation_changed, 2, 3, start=-180, to=180, label='Rotation xy')
-    rotation_entry = Entry(main_window)
-    rotation_entry.grid(row=2, column=4, sticky=W)
+    rotation_entry = create_entry(main_window, 2, 4)
 
     create_slider(main_window, on_camera_rotation_x_changed, 3, 3, start=-10, to=10, label='Camera X rotation')
-    cam_x_rotation_entry = Entry(main_window)
-    cam_x_rotation_entry.grid(row=3, column=4, sticky=W)
+    cam_x_rotation_entry = create_entry(main_window, 3, 4)
 
     create_slider(main_window, on_camera_rotation_y_changed, 4, 3, start=-10, to=10, label='Camera Y rotation')
-    cam_y_rotation_entry = Entry(main_window)
-    cam_y_rotation_entry.grid(row=4, column=4, sticky=W)
+    cam_y_rotation_entry = create_entry(main_window, 4, 4)
 
     apply_btn = Button(main_window, text="Apply", width=10, command=update_values)
     apply_btn.grid(row=5, column=3, sticky=W)
@@ -169,11 +161,11 @@ def update():
         dots.append(f / f[2])
     dots = np.array(dots)
     dots_center = np.array([0.1, 0.1])
-    K2 = 0.0
+    k2 = 0.0
     r = (dots[:, :2] - dots_center) ** 2
     f1 = (r).sum(axis=1)
     f2 = (r ** 2).sum(axis=1)
-    mask = np.expand_dims(K1 * f1 + K2 * f2, axis=-1)
+    mask = np.expand_dims(k1 * f1 + k2 * f2, axis=-1)
     dots_new = (dots[:, :2]) + (dots[:, :2] - dots_center) * mask
     ax.plot(dots_new[:, 0], dots_new[:, 1], '-D')
     ax.set_aspect('equal')
